@@ -1,6 +1,7 @@
-import pygame
 import random
 import sys
+
+import pygame
 
 # Game configuration
 SCREEN_WIDTH = 800
@@ -35,47 +36,47 @@ ROWS = 20
 
 # I shape: ----
 I_ROT = [
-    [( -2, 0), (-1, 0), (0, 0), (1, 0)],   # 0 degrees (horizontal)
-    [( 0, -2), (0, -1), (0, 0), (0, 1)],   # 90 degrees (vertical)
-    [( -2, 0), (-1, 0), (0, 0), (1, 0)],   # 180
-    [( 0, -2), (0, -1), (0, 0), (0, 1)],   # 270
+    [(-2, 0), (-1, 0), (0, 0), (1, 0)],  # 0 degrees (horizontal)
+    [(0, -2), (0, -1), (0, 0), (0, 1)],  # 90 degrees (vertical)
+    [(-2, 0), (-1, 0), (0, 0), (1, 0)],  # 180
+    [(0, -2), (0, -1), (0, 0), (0, 1)],  # 270
 ]
 
 # O shape: square
 O_ROT = [
-    [ (0, 0), (1, 0), (0, -1), (1, -1)],
-    [ (0, 0), (1, 0), (0, -1), (1, -1)],
-    [ (0, 0), (1, 0), (0, -1), (1, -1)],
-    [ (0, 0), (1, 0), (0, -1), (1, -1)],
+    [(0, 0), (1, 0), (0, -1), (1, -1)],
+    [(0, 0), (1, 0), (0, -1), (1, -1)],
+    [(0, 0), (1, 0), (0, -1), (1, -1)],
+    [(0, 0), (1, 0), (0, -1), (1, -1)],
 ]
 
 # T shape
 T_ROT = [
-    [(0, 0), (-1, 0), (1, 0), (0, -1)],     # ⊥
-    [(0, 0), (0, -1), (0, 1), (1, 0)],      # ⟂ right
-    [(0, 0), (-1, 0), (1, 0), (0, 1)],      # T upside down
-    [(0, 0), (0, -1), (0, 1), (-1, 0)],     # ⟂ left
+    [(0, 0), (-1, 0), (1, 0), (0, -1)],  # ⊥
+    [(0, 0), (0, -1), (0, 1), (1, 0)],  # ⟂ right
+    [(0, 0), (-1, 0), (1, 0), (0, 1)],  # T upside down
+    [(0, 0), (0, -1), (0, 1), (-1, 0)],  # ⟂ left
 ]
 
 # S shape
 S_ROT = [
-    [(0, 0), (1, 0), (0, -1), (-1, -1)],    # horizontal
-    [(0, 0), (0, -1), (1, 0), (1, 1)],      # vertical
+    [(0, 0), (1, 0), (0, -1), (-1, -1)],  # horizontal
+    [(0, 0), (0, -1), (1, 0), (1, 1)],  # vertical
     [(0, 0), (1, 0), (0, -1), (-1, -1)],
     [(0, 0), (0, -1), (1, 0), (1, 1)],
 ]
 
 # Z shape
 Z_ROT = [
-    [(0, 0), (-1, 0), (0, -1), (1, -1)],    # horizontal
-    [(0, 0), (0, -1), (-1, 0), (-1, 1)],    # vertical
+    [(0, 0), (-1, 0), (0, -1), (1, -1)],  # horizontal
+    [(0, 0), (0, -1), (-1, 0), (-1, 1)],  # vertical
     [(0, 0), (-1, 0), (0, -1), (1, -1)],
     [(0, 0), (0, -1), (-1, 0), (-1, 1)],
 ]
 
 # J shape
 J_ROT = [
-    [(0, 0), (-1, 0), (1, 0), (-1, -1)],    # └─
+    [(0, 0), (-1, 0), (1, 0), (-1, -1)],  # └─
     [(0, 0), (0, -1), (0, 1), (1, -1)],
     [(0, 0), (-1, 0), (1, 0), (1, 1)],
     [(0, 0), (0, -1), (0, 1), (-1, 1)],
@@ -83,7 +84,7 @@ J_ROT = [
 
 # L shape
 L_ROT = [
-    [(0, 0), (-1, 0), (1, 0), (1, -1)],     # ┘
+    [(0, 0), (-1, 0), (1, 0), (1, -1)],  # ┘
     [(0, 0), (0, -1), (0, 1), (1, 1)],
     [(0, 0), (-1, 0), (1, 0), (-1, 1)],
     [(0, 0), (0, -1), (0, 1), (-1, -1)],
@@ -91,6 +92,7 @@ L_ROT = [
 
 SHAPES = [I_ROT, O_ROT, T_ROT, S_ROT, Z_ROT, J_ROT, L_ROT]
 SHAPE_COLORS = [CYAN, YELLOW, MAGENTA, GREEN, RED, BLUE, ORANGE]
+
 
 class Piece:
     def __init__(self, x, y, shape_index):
@@ -122,7 +124,7 @@ def create_grid(locked_positions):
 
 
 def valid_space(piece, grid):
-    for (x, y) in piece.blocks:
+    for x, y in piece.blocks:
         if x < 0 or x >= COLS or y >= ROWS:
             return False
         if y >= 0 and grid[y][x] != BLACK:
@@ -131,7 +133,7 @@ def valid_space(piece, grid):
 
 
 def check_lost(locked_positions):
-    for (x, y) in locked_positions:
+    for x, y in locked_positions:
         if y < 0:
             return True
     return False
@@ -159,7 +161,7 @@ def clear_rows(grid, locked):
                 del locked[(x, y)]
     # Shift down
     rows_to_clear.sort()
-    for (x, y) in sorted(list(locked.keys()), key=lambda t: t[1]):
+    for x, y in sorted(list(locked.keys()), key=lambda t: t[1]):
         shift = sum(1 for ry in rows_to_clear if y < ry)
         if shift > 0:
             color = locked.pop((x, y))
@@ -169,38 +171,52 @@ def clear_rows(grid, locked):
 
 def draw_grid(surface, grid):
     # fill background playfield
-    pygame.draw.rect(surface, DARK_GRAY, (TOP_LEFT_X, TOP_LEFT_Y, PLAY_WIDTH, PLAY_HEIGHT))
+    pygame.draw.rect(
+        surface, DARK_GRAY, (TOP_LEFT_X, TOP_LEFT_Y, PLAY_WIDTH, PLAY_HEIGHT)
+    )
 
     # draw locked and current grid
     for y in range(ROWS):
         for x in range(COLS):
             color = grid[y][x]
-            rect = (TOP_LEFT_X + x * BLOCK_SIZE, TOP_LEFT_Y + y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE)
+            rect = (
+                TOP_LEFT_X + x * BLOCK_SIZE,
+                TOP_LEFT_Y + y * BLOCK_SIZE,
+                BLOCK_SIZE,
+                BLOCK_SIZE,
+            )
             pygame.draw.rect(surface, color, rect)
             # grid lines
             pygame.draw.rect(surface, GRAY, rect, 1)
 
     # border
-    pygame.draw.rect(surface, WHITE, (TOP_LEFT_X, TOP_LEFT_Y, PLAY_WIDTH, PLAY_HEIGHT), 4)
+    pygame.draw.rect(
+        surface, WHITE, (TOP_LEFT_X, TOP_LEFT_Y, PLAY_WIDTH, PLAY_HEIGHT), 4
+    )
 
 
 def draw_text_middle(surface, text, size, color):
-    font = pygame.font.SysFont('arial', size, bold=True)
+    font = pygame.font.SysFont("arial", size, bold=True)
     label = font.render(text, True, color)
 
-    surface.blit(label, (TOP_LEFT_X + PLAY_WIDTH/2 - label.get_width()/2,
-                         TOP_LEFT_Y + PLAY_HEIGHT/2 - label.get_height()/2))
+    surface.blit(
+        label,
+        (
+            TOP_LEFT_X + PLAY_WIDTH / 2 - label.get_width() / 2,
+            TOP_LEFT_Y + PLAY_HEIGHT / 2 - label.get_height() / 2,
+        ),
+    )
 
 
 def draw_next_shape(surface, piece):
-    font = pygame.font.SysFont('arial', 24)
-    label = font.render('Next:', True, WHITE)
+    font = pygame.font.SysFont("arial", 24)
+    label = font.render("Next:", True, WHITE)
 
     sx = TOP_LEFT_X + PLAY_WIDTH + 40
     sy = TOP_LEFT_Y + 60
     surface.blit(label, (sx, sy - 40))
 
-    for (dx, dy) in SHAPES[piece.shape_index][piece.rotation % 4]:
+    for dx, dy in SHAPES[piece.shape_index][piece.rotation % 4]:
         x = sx + (dx + 2) * BLOCK_SIZE
         y = sy + (dy + 2) * BLOCK_SIZE
         pygame.draw.rect(surface, piece.color, (x, y, BLOCK_SIZE, BLOCK_SIZE))
@@ -208,8 +224,8 @@ def draw_next_shape(surface, piece):
 
 
 def draw_score(surface, score):
-    font = pygame.font.SysFont('arial', 24)
-    label = font.render(f'Score: {score}', True, WHITE)
+    font = pygame.font.SysFont("arial", 24)
+    label = font.render(f"Score: {score}", True, WHITE)
     sx = TOP_LEFT_X - 180
     sy = TOP_LEFT_Y + 60
     surface.blit(label, (sx, sy))
@@ -219,7 +235,7 @@ def try_kick(piece, grid, dir):
     # Simple wall kicks: try shifting left/right/up to make rotation fit
     candidates = [(0, 0), (1, 0), (-1, 0), (2, 0), (-2, 0), (0, -1)]
     rotated = piece.rotated(dir)
-    for (kx, ky) in candidates:
+    for kx, ky in candidates:
         test = Piece(rotated.x + kx, rotated.y + ky, rotated.shape_index)
         test.rotation = rotated.rotation
         if valid_space(test, grid):
@@ -256,13 +272,15 @@ def main(win):
         # piece falling
         if fall_time >= fall_speed or move_down_pressed:
             fall_time = 0
-            test_piece = Piece(current_piece.x, current_piece.y + 1, current_piece.shape_index)
+            test_piece = Piece(
+                current_piece.x, current_piece.y + 1, current_piece.shape_index
+            )
             test_piece.rotation = current_piece.rotation
             if valid_space(test_piece, grid):
                 current_piece = test_piece
             else:
                 # lock piece
-                for (x, y) in current_piece.blocks:
+                for x, y in current_piece.blocks:
                     locked_positions[(x, y)] = current_piece.color
                 change_piece = True
 
@@ -274,12 +292,16 @@ def main(win):
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
-                    test_piece = Piece(current_piece.x - 1, current_piece.y, current_piece.shape_index)
+                    test_piece = Piece(
+                        current_piece.x - 1, current_piece.y, current_piece.shape_index
+                    )
                     test_piece.rotation = current_piece.rotation
                     if valid_space(test_piece, grid):
                         current_piece = test_piece
                 elif event.key == pygame.K_RIGHT:
-                    test_piece = Piece(current_piece.x + 1, current_piece.y, current_piece.shape_index)
+                    test_piece = Piece(
+                        current_piece.x + 1, current_piece.y, current_piece.shape_index
+                    )
                     test_piece.rotation = current_piece.rotation
                     if valid_space(test_piece, grid):
                         current_piece = test_piece
@@ -296,21 +318,25 @@ def main(win):
                 elif event.key == pygame.K_SPACE:
                     # hard drop
                     while True:
-                        test_piece = Piece(current_piece.x, current_piece.y + 1, current_piece.shape_index)
+                        test_piece = Piece(
+                            current_piece.x,
+                            current_piece.y + 1,
+                            current_piece.shape_index,
+                        )
                         test_piece.rotation = current_piece.rotation
                         if valid_space(test_piece, grid):
                             current_piece = test_piece
                         else:
                             break
                     # lock immediately
-                    for (x, y) in current_piece.blocks:
+                    for x, y in current_piece.blocks:
                         locked_positions[(x, y)] = current_piece.color
                     change_piece = True
                 elif event.key == pygame.K_p:
                     # pause
                     paused = True
-                    font = pygame.font.SysFont('arial', 36, bold=True)
-                    pause_label = font.render('PAUSED - Press P to Resume', True, WHITE)
+                    font = pygame.font.SysFont("arial", 36, bold=True)
+                    pause_label = font.render("PAUSED - Press P to Resume", True, WHITE)
                     while paused:
                         for e in pygame.event.get():
                             if e.type == pygame.QUIT:
@@ -320,7 +346,10 @@ def main(win):
                                 paused = False
                         win.fill(BLACK)
                         draw_grid(win, grid)
-                        win.blit(pause_label, (SCREEN_WIDTH/2 - pause_label.get_width()/2, 30))
+                        win.blit(
+                            pause_label,
+                            (SCREEN_WIDTH / 2 - pause_label.get_width() / 2, 30),
+                        )
                         pygame.display.update()
 
             if event.type == pygame.KEYUP:
@@ -328,7 +357,7 @@ def main(win):
                     move_down_pressed = False
 
         shape_pos = current_piece.blocks
-        for (x, y) in shape_pos:
+        for x, y in shape_pos:
             if y >= 0:
                 grid[y][x] = current_piece.color
 
@@ -337,9 +366,9 @@ def main(win):
         draw_grid(win, grid)
         draw_next_shape(win, next_piece)
         draw_score(win, score)
-        title_font = pygame.font.SysFont('arial', 36, bold=True)
-        title_label = title_font.render('TETRIS', True, WHITE)
-        win.blit(title_label, (SCREEN_WIDTH/2 - title_label.get_width()/2, 20))
+        title_font = pygame.font.SysFont("arial", 36, bold=True)
+        title_label = title_font.render("TETRIS", True, WHITE)
+        win.blit(title_label, (SCREEN_WIDTH / 2 - title_label.get_width() / 2, 20))
         pygame.display.update()
 
         # If piece locked, generate new and clear rows
@@ -348,7 +377,7 @@ def main(win):
             cleared = clear_rows(grid, locked_positions)
             if cleared > 0:
                 level_lines += cleared
-                score += (cleared ** 2) * 100
+                score += (cleared**2) * 100
             current_piece = next_piece
             next_piece = get_shape()
             # If new piece overlaps locked (y < 0 after locking), game over
@@ -358,20 +387,20 @@ def main(win):
     # Game over screen
     win.fill(BLACK)
     draw_grid(win, grid)
-    draw_text_middle(win, 'GAME OVER', 48, WHITE)
+    draw_text_middle(win, "GAME OVER", 48, WHITE)
     pygame.display.update()
     pygame.time.delay(2000)
 
 
 def main_menu():
     pygame.init()
-    pygame.display.set_caption('Tetris - Pygame')
+    pygame.display.set_caption("Tetris - Pygame")
     win = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
     run = True
     while run:
         win.fill(BLACK)
-        draw_text_middle(win, 'Press Any Key To Play', 40, WHITE)
+        draw_text_middle(win, "Press Any Key To Play", 40, WHITE)
         pygame.display.update()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -383,5 +412,5 @@ def main_menu():
     pygame.quit()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main_menu()
